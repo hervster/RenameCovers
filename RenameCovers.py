@@ -19,6 +19,7 @@ for directory in dirs:
         os.chdir(AlbumsPath + '\\' + directory)
         tempDir = os.listdir(os.getcwd())
         found = False
+        count = 1
         for songFiles in tempDir:
             sL = len(songFiles)
             dot = songFiles.index('.')
@@ -30,11 +31,17 @@ for directory in dirs:
                     matchInd = matchObj.span()  #span creates tuple of indexes, 
                     match = directory[matchInd[0]:matchInd[1]]
                     newName = match + filext
+                    if count > 1:
+                        newName = match + ' ' + str(count-1) + filext
                     os.rename(songFiles, newName)
                 else:
                     newName = directory + filext
+                    if count > 1:
+                        newName = directory + ' ' + str(count-1) + filext
                     os.rename(songFiles, newName) # Add if statement that checks for spaces and other characters between dot and filext
                 i += 1
+                count += 1
+                
         if not found:
             #Write to logfile
             missing = os.getcwd()
@@ -45,5 +52,3 @@ for directory in dirs:
             log.close()
         
             
-
-#also need call if there is no image file
